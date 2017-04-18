@@ -48,6 +48,8 @@ public:
 	//(no negative cycle (cannot detect), undirected/directed graph)
 	//Time complexity: O((|E| + |V|)log|V|)
 	void exec(size_t s){
+		size_t u, v;
+		T w, cur;
 		//Unless you want previous, this is not needed
 		//fill_n(prev, V, -1);
 		priority_queue<pair<size_t, T>, vector<pair<size_t, T> >, cmp> q;
@@ -56,15 +58,19 @@ public:
 		checked[s] = true;
 		while(!q.empty()){
 			pair<size_t, T> p = q.top(); q.pop();
-			if(check(result[p.first], p.second)) continue;
-			size_t len = G[p.first].size();
-			for(size_t i = 0; i < len; i++)
-				if(!checked[G[p.first][i].first] || check(p.second + G[p.first][i].second, result[G[p.first][i].first])){
-					//prev[G[p.first][i].first] = p.first;
-					checked[G[p.first][i].first] = true;
-					result[G[p.first][i].first] = p.second + G[p.first][i].second;
-					q.push(pair<size_t, T>(G[p.first][i].first, result[G[p.first][i].first]));
+			u = p.first;
+			cur = p.second;
+			if(check(result[u], cur)) continue;
+			size_t len = G[u].size();
+			for(size_t i = 0; i < len; i++){
+				v = G[u][i].first;
+				w = G[u][i].second;
+				if(!checked[v] || check(cur + w, result[v])){
+					//prev[v] = u;
+					checked[v] = true;
+					q.push(pair<size_t, T>(v, (result[v] = cur + w)));
 				}
+			}
 		}
 	}
 	

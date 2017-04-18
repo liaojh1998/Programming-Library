@@ -39,14 +39,19 @@ public:
 	//Directed acyclic graph only
 	//This takes the idea of topological sort
 	//Time complexity: O(|V| + |E|)
-	void dfs(size_t v){
-		size_t len = G[v].size();
-		for(size_t i = 0; i < len; i++)
-			if(!checked[G[v][i].first] || check(result[v] + G[v][i].second, result[G[v][i].first])){
-				result[G[v][i].first] = result[v] + G[v][i].second;
-				checked[G[v][i].first] = true;
-				dfs(G[v][i].first);
+	void dfs(size_t u){
+		size_t v;
+		T w;
+		size_t len = G[u].size();
+		for(size_t i = 0; i < len; i++){
+			v = G[u][i].first;
+			w = G[u][i].second;
+			if(!checked[v] || check(result[u] + w, result[v])){
+				result[v] = result[u] + w;
+				checked[v] = true;
+				dfs(v);
 			}
+		}
 	}
 	//Execution
 	void exec(size_t s){

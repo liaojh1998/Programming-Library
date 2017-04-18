@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-template<typename T> class BF{
+template<typename T> class BellmanFord{
 private:
 	T* result;
 	//size_t* prev; //Useful for path reconstruction
@@ -12,7 +12,7 @@ private:
 
 public:
 	//Constructor, n = number of vertices
-	BF(size_t n){
+	BellmanFord(size_t n){
 		V = n;
 		result = new T[V]();
 		//prev = new size_t[V]();
@@ -20,7 +20,7 @@ public:
 		checked = new bool[V]();
 	}
 	//Destructor
-	~BF(){
+	~BellmanFord(){
 		delete[] result;
 		//delete[] prev;
 		delete[] G;
@@ -42,6 +42,8 @@ public:
 	//(no negative cycles (can detect), undirected/directed graph)
 	//Time complexity: O(|V||E|)
 	void exec(size_t s){
+		size_t v;
+		T w;
 		//Unless you want previous, this is not needed
 		//fill_n(prev, V, -1);
 		result[s] = 0;
@@ -49,12 +51,15 @@ public:
 		for(size_t i = 0; i < V; i++){
 			for(size_t j = 0; j < V; j++){
 				size_t len = G[j].size();
-				for(size_t k = 0; k < len; k++)
-					if(checked[j] && (!checked[G[j][k].first] || check(result[j] + G[j][k].second, result[G[j][k].first]))){
-						checked[G[j][k].first] = true;
-						result[G[j][k].first] = result[j] + G[j][k].second;
-						//prev[G[j][k].first] = j;
+				for(size_t k = 0; k < len; k++){
+					v = G[j][k].first;
+					w = G[j][k].second;
+					if(checked[j] && (!checked[v] || check(result[j] + w, result[v]))){
+						checked[v] = true;
+						result[v] = result[j] + w;
+						//prev[v] = j;
 					}
+				}
 			}
 		}
 		//This is used to check if there is negative-weight cycles

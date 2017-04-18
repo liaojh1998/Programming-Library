@@ -42,7 +42,7 @@ private:
 		if(c != '.'){
 			if(neg) n = -n;
 			return 1;
-	}
+		}
 		double div = 1;
 		for(c = getchar(); c > 47 && c < 58 && ~c; c = getchar()){div *= 10, n = n*10+c-48;}
 		n /= div;
@@ -92,13 +92,15 @@ public:
 		}
 	}
 
-	void solve(){
-		//Enter Code here
-	}
+	void solve();
 };
 
 int main(){
 	FastIO fio;
 	fio.solve();
 	return 0;
+}
+
+void FastIO::solve(){
+	//Enter Code here
 }

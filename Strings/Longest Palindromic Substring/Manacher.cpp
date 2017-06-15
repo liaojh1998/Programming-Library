@@ -29,8 +29,7 @@ public:
 	//Manacher's Algorithm
 	void exec(){
 		int center = 0, size = N*2+1, bound = -1, rad, loc;
-		psa[0] = 0;
-		for(int i = 1; i < size; i++){
+		for(int i = 0; i < size; i++){
 			rad = (i <= bound) ? min(psa[2*center-i], (bound-i)/2) : 0;
 			loc = (i-1)/2;
 			//Odd - on char; Even - between char
@@ -51,7 +50,7 @@ public:
 			}
 			psa[i] = rad;
 		}
-		for(int i = 1; i < size; i++)
+		for(int i = 0; i < size; i++)
 			psa[i] = ((i%2) ? 1 : 0) + 2*psa[i];
 		//To get radius from psa, reverse operations:
 		//rad[i] = (psa[i] - (i%2) ? 1 : 0)/2;

@@ -76,11 +76,28 @@ public:
 
 	//Access shortest path, -1 if not accessible
 	T operator[](size_t i){
-		return checked[i] ? result[i] : -1; 
+		return checked[i] && i < V && i > 0 ? result[i] : -1; 
 	}
 };
 
 int main(){
-	//Enter code here
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int T, V, E, u, v, w, start, end;
+	cin >> T;
+	while(T--){
+		cin >> V >> E;
+		SPFA<long long> spfa(V+1);
+		for(int i = 0; i < E; i++){
+			cin >> u >> v >> w;
+			spfa.add(u, v, w);
+		}
+		cin >> start >> end;
+		spfa.exec(start);
+		if(spfa[end] == -1)
+			cout << "NO" << endl;
+		else
+			cout << spfa[end] << endl;
+	}
 	return 0;
 }

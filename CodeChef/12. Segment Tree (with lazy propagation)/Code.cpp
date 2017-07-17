@@ -38,7 +38,7 @@ public:
 		delete[] sgt;
 	}
 	//Array access
-	T& operator[](size_t i){
+	T& operator[](const size_t& i){
 		return sgt[i + (1<<height)];
 	}
 

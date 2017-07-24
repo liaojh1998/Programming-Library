@@ -47,3 +47,5 @@ Temporary Items
 .apdisk
 *.bat
 *.txt
+*.exe
+treegen.cpp

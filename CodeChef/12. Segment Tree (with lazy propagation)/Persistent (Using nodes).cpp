@@ -57,11 +57,11 @@ private:
 		if(m+1 <= qr) ans = queryfunc(ans, query(cur->r, ql > m+1 ? ql : m+1, qr, m+1, r));
 		return ans;
 	}
-	node* revert(node* cur, node* prev, int ql, int qr, int l, int r){ //Needs check
-		if(ql == l && qr == r) return new node(prev->l, prev->r, false, false);
+	node* revert(node* cur, node* prev, int ql, int qr, int l, int r){
+		if(ql == l && qr == r) return l == r ? new node(prev->val) : new node(prev->l, prev->r, false, false);
 		int m = (l+r)>>1;
-		if(m > qr) return new node(revert(cur->l, prev->l, ql, qr, l, m), cur->r, true, false);
-		if(m+1 < ql) return new node(cur->l, revert(cur->r, prev->r, ql, qr, m+1, r), false, true);
+		if(m >= qr) return new node(revert(cur->l, prev->l, ql, qr, l, m), cur->r, true, false);
+		if(m+1 <= ql) return new node(cur->l, revert(cur->r, prev->r, ql, qr, m+1, r), false, true);
 		return new node(revert(cur->l, prev->l, ql, m, l, m), revert(cur->r, prev->r, m+1, qr, m+1, r), true, true);
 	}
 

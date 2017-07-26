@@ -37,7 +37,7 @@ private:
 	node* build(T *arr, int l, int r){
 		if(l == r) return new node(arr[l]);
 		int m = (l+r)>>1;
-		return new node(build(arr, l, m), build(arr, m+1, r), true, true);;
+		return new node(build(arr, l, m), build(arr, m+1, r), true, true);
 	}
 	node* init_build(int l, int r){
 		if(l == r) return new node(defval);

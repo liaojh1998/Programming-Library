@@ -56,8 +56,8 @@ public:
 				taken[cur.first] = true;
 				len = G[cur.first].size();
 				for(size_t i = 0; i < len; i++){
-				if(!taken[G[cur.first][i].first])
-					q.push(G[cur.first][i]);
+					if(!taken[G[cur.first][i].first])
+						q.push(G[cur.first][i]);
 				}
 			}
 		}

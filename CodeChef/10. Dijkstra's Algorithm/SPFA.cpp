@@ -38,7 +38,7 @@ public:
 	//SPFA Execution
 	//(no negative cycles (cannot detect), undirected/directed graph)
 	//Time complexity: O(|V||E|) on dense graphs, average case time complexity O(|E|)
-	//This runs about same as Dijkstra with priority queue on average case, but slower on worst case, and definitely faster than original Dijkstra and Bellman-Ford
+	//This runs about same as Dijkstra with priority queue on average case (possibly faster on sparse graphs), but slower on worst case, and definitely faster than original Dijkstra and Bellman-Ford
 	//Optimized with Small Label First technique
 	void exec(size_t s){
 		size_t u, v;
@@ -64,7 +64,7 @@ public:
 					result[v] = result[u] + w;
 					if(!queued[v]){
 						queued[v] = true;
-						if(!q.empty() && result[v] < result[q.front()])
+						if(!q.empty() && check(result[v], result[q.front()]))
 							q.push_front(v);
 						else
 							q.push_back(v);

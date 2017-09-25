@@ -72,9 +72,8 @@ public:
 					//if v isn't the sink
 					if(v != t)
 						q.push(v);
-					else{
+					else
 						return M[t];
-					}
 				}
 			}
 		}

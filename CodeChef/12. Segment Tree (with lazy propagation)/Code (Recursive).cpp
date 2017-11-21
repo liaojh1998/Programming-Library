@@ -18,14 +18,19 @@ private:
 	//This example apply sum
 	T applyfunc(const T& a, const T& b){
 		return b;
+		//a+b if gain, or add, or increment
 	}
 	T queryfunc(const T& a, const T& b){
-		return a + b;
+		return a+b;
 	}
 	
 	//Building function
 	T push(size_t node, size_t l, size_t r){
-		return (l^r) ? (sgt[node] = queryfunc(push(node<<1, l, (l+r)/2), push(node<<1|1, (l+r)/2+1, r))) : sgt[node] = applyfunc(sgt[node], arr[l]);
+		if(l^r)
+			sgt[node] = queryfunc(push(node<<1, l, (l+r)/2), push(node<<1|1, (l+r)/2+1, r));
+		else
+			sgt[node] = applyfunc(sgt[node], arr[l]);
+		return sgt[node];
 	}
 	//Update function
 	void update(size_t node, size_t l, size_t r, size_t pos, const T& value){
@@ -36,26 +41,33 @@ private:
 			else
 				update(node<<1, l, m, pos, value);
 			sgt[node] = queryfunc(sgt[node<<1], sgt[node<<1|1]);
-		}else
+		}else{
 			sgt[node] = applyfunc(sgt[node], value);
+			arr[pos] = applyfunc(arr[pos], value);
+		}
 	}
 	//Query function
 	T query(size_t node, size_t ql, size_t qr, size_t l, size_t r){
-		if(ql > r || qr < l || r < l) return defval;
+		if(ql > r || qr < l || r < l)
+			return defval;
+		if(!((ql^l) | (qr^r)))
+			return sgt[node];
 		size_t m = (l+r)/2;
-		return ((ql^l) | (qr^r)) ? queryfunc(query(node<<1, ql, min(qr, m), l, m), query(node<<1|1, max(ql, m+1), qr, m+1, r)) : sgt[node];
+		return queryfunc(query(node<<1, ql, min(qr, m), l, m), query(node<<1|1, max(ql, m+1), qr, m+1, r));
 	}
 
 public:
 	//Useful functions
 	//Constructor, n - size of the array
-	//This is the non-space saving, no-recursion version
+	//This is the recursive version
+	//Range 0 - N-1
 	SegTree(size_t n){
 		N = n;
-		sgt = new T[(1<<(size_t)ceil(log2(N))) + N]();
-		arr = new T[N]();
+		sgt = new T[(1<<((size_t)ceil(log2(N))+1))+5]();
 		//Set correct initial values at each leaf when needed
 		//For example, min require infinity for each leaf
+		//fill_n(sgt, (1<<(size_t)ceil(log2(N))) + N, defval);
+		arr = new T[N+5]();
 	}
 	//Destructor
 	~SegTree(){

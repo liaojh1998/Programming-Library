@@ -10,6 +10,9 @@ private:
 	T* sgt;
 	size_t N, height;
 	//N is useful if possibility of querying out of range
+	#define defval (0)
+	//Set correct initial values at each leaf when needed
+	//For example, min require infinity for each leaf
 
 	//Functions that relates child to parent in the segment tree
 	//Important order of procedence, such as multiple and division, will not work
@@ -29,9 +32,8 @@ public:
 	SegTree(size_t n){
 		N = n;
 		height = (size_t)ceil(log2(N));
-		sgt = new T[1<<(height+1)]();
-		//Set correct initial values at each leaf when needed
-		//For example, min require infinity for each leaf
+		sgt = new T[1<<(height+1)];
+		fill_n(sgt, 1<<(height+1), defval);
 	}
 	//Destructor
 	~SegTree(){

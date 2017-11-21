@@ -23,14 +23,14 @@ private:
 		return a < b ? a : b;
 	}
 	*/
-	//Upward propagate relation
+	//Lazy to unlazy
 	//Flipping Coins had ^ relation which changed a + b to b - a when upward propagate
-	T upropfunc(const T& a, const T& b){
+	T applyfunc(const T& a, const T& b){
 		return b - a;
 	}
 	//Downward propagate relation
 	//This replaces the applyfunc of the standard segment tree
-	T dpropfunc(const T& a, const T& b){
+	T propfunc(const T& a, const T& b){
 		//Increment or assignment works
 		//If increment, return a+1, can queries for maximum by queryfunc reverse of min
 		//If assignment, return b, can queries for sum
@@ -63,13 +63,13 @@ public:
 	//Lazy calculate
 	//Change k to 1 if length doesn't matter (case when assignment, not summed queries)
 	void calc(size_t pos, size_t k){
-		if(lazy[pos]) sgt[pos] = upropfunc(queryfunc(sgt[pos<<1], sgt[pos<<1|1]), lazy[pos]*k); //Change all upropfunc if sum
+		if(lazy[pos]) sgt[pos] = applyfunc(queryfunc(sgt[pos<<1], sgt[pos<<1|1]), lazy[pos]*k); //Change all applyfunc if sum
 		else sgt[pos] = queryfunc(sgt[pos<<1], sgt[pos<<1|1]);
 	}
 	//Propagate function
 	void propagate(size_t pos, const T& value, size_t k){
-		sgt[pos] = upropfunc(sgt[pos], value*k);
-		if(pos < (1<<height)) lazy[pos] = dpropfunc(lazy[pos], value);
+		sgt[pos] = applyfunc(sgt[pos], value*k);
+		if(pos < (1<<height)) lazy[pos] = propfunc(lazy[pos], value);
 	}
 	//If read values directly into segment tree, then we may instantly build
 	//O(N)

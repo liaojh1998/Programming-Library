@@ -36,9 +36,9 @@ private:
 		bool neg = false;
 		c = getchar();
 		if(!(~c)) return -1;
-		for(; ((c < 48 || c > 57)) && c != '-' && ~c; c = getchar());
+		for(; c != '.' && ((c < 48 || c > 57)) && c != '-' && ~c; c = getchar());
 		if(c == '-') neg = true, c = getchar();
-		for(; c > 47 && c < 58 && ~c; c = getchar()){n = n*10+c-48;}
+		for(; c != '.' && c > 47 && c < 58 && ~c; c = getchar()){n = n*10+c-48;}
 		if(c != '.'){
 			if(neg) n = -n;
 			return 1;

@@ -39,7 +39,7 @@ private:
 public:
 	//Useful functions
 	//Constructors: a - array, N - size of array
-	SuffixArray(T* a, size_t n){
+	SuffixArray(const T* a, size_t n){
 		//N > 1, strings of 1 will not work
 		N = n;
 		arr = new int[N+3];

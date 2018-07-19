@@ -61,7 +61,7 @@ public:
 	//Access: O(logN)
 	T query(size_t l, size_t r){
 		if(!((l+1)^r)) return (*this)[l];
-		T resl = 0, resr = 0; //Set initial values
+		T resl = defval, resr = defval; //Set initial values
 		for(l += (1<<height), r += (1<<height); l < r; l >>= 1, r >>= 1){
 			if(l&1) resl = queryfunc(resl, sgt[l++]);
 			if(r&1) resr = queryfunc(sgt[--r], resr);
